@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongruan.dao.IUserDao" >
+	<insert id="add">
+		INSERT INTO tb_user(username,password) VALUE (#{username},#{password});
+	</insert>
+	<update id="updateById">
+		update tb_user
+		<set>
+			<if test="username!=null and username!=''">
+				`username`=#{username},
+			</if>
+			<if test="password!=null and password!=''">
+				`password`=#{password}
+			</if>
+		</set>
+		where  id=#{id};
+	</update>
+	<delete id="delete">DELETE FROM tb_user WHERE id=#{id};</delete>
+    <delete id="deleteByIds">
+		delete from tb_user where id in
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+    </delete>
+    <select id="selectById" resultType="com.zhongruan.entity.User">
+		select * from tb_user where `username`=#{username};
+	</select>
+	<select id="query" resultType="java.lang.Integer">select * from tb_user where id=#{id};</select>
+    <select id="getList" resultType="com.zhongruan.entity.User">
+        select * from tb_user;
+    </select>
+	<select id="queryById" resultType="com.zhongruan.entity.User">
+		select * from tb_user where `id`=#{id};
+	</select>
+</mapper>
